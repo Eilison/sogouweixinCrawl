@@ -1,0 +1,4 @@
+lxml
+pillow
+netcrawl
+selenium

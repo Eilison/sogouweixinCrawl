@@ -1,0 +1,6 @@
+*.pyc
+dist/
+build/
+main.py
+.pypirc
+sogouweixincrawl.egg-info/
