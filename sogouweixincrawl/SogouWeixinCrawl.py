@@ -47,17 +47,13 @@ class SogouWeixinCrawl(object):
 
         return self.__accountList
     
-    def getArticleList(self, key):
+    def getArticleList(self, keyword):
 
         if len(self.__accountList) == 0:
-            self.getAccountList(key)
+            self.getAccountList(keyword)
 
-        nameUigs = None
-        for account in self.__accountList:
-            if key in self.__accountList[account]['name']:
-                nameUigs = self.__accountList[account]['nameUigs']
-                break
-        
+        nameUigs = self.__getUigsByKey(keyword, "nameUigs")
+
         if nameUigs:
             self.__crawl.clickElement(self.__crawl.findElement(By.XPATH, '//a[@uigs="%s"]'%(nameUigs)), 
                 1, 30)
@@ -78,19 +74,35 @@ class SogouWeixinCrawl(object):
         if callable(func):
             func(self.__crawl.findElement(By.XPATH, "//div[@id='img-content']/descendant::img"))
 
-    def getFirstArticleFromAccountList(self, key):
+    def getFirstArticleFromAccountList(self, keyword):
 
         if len(self.__accountList) == 0:
-            self.getAccountList(key)
+            self.getAccountList(keyword)
 
-        articleUigs = None
-        for account in self.__accountList:
-            if key in self.__accountList[account]['name']:
-                articleUigs = self.__accountList[account]['recentArticleUigs']
-                break
+        articleUigs = self.__getUigsByKey(keyword, "recentArticleUigs")
 
         if articleUigs:
             self.__crawl.clickElement(self.__crawl.findElement(By.XPATH, '//a[@uigs="%s"]'%(articleUigs)), 
                 1, 30)
 
         return self.__crawl.getBrowser().page_source
+
+    def __getUigsByKey(self, keyword = None, key = None):
+        '''
+
+        根据key获取页面对应的点击元素
+
+        '''
+        
+        if keyword is None or key is None:
+            return None
+
+        for account in self.__accountList:
+            if keyword == self.__accountList[account]['weixinhao']:
+                return self.__accountList[account][key]
+        
+        for account in self.__accountList:
+            if keyword == self.__accountList[account]['name']:
+                return self.__accountList[account][key]
+        
+        return None
