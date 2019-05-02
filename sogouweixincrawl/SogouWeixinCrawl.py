@@ -49,6 +49,7 @@ class SogouWeixinCrawl(object):
             if accountListElement is None:
                 if not self.__verifyHandler.checkSogouVerify():
                     return
+                accountListElement = self.__crawl.findElement(By.CLASS_NAME, 'news-list2')
 
             listHtml = accountListElement.get_attribute("innerHTML")
             
@@ -92,7 +93,7 @@ class SogouWeixinCrawl(object):
         else:
             return ""
 
-    def getFirstArticleFromAccountList(self, keyword):
+    def getFirstArticleFromAccountList(self, keyword, parserfunc=None):
 
         if len(self.__accountList) == 0:
             self.getAccountList(keyword)
@@ -106,7 +107,10 @@ class SogouWeixinCrawl(object):
             if not self.__verifyHandler.checkWeixinVerify():
                 return
 
-        return self.__crawl.getBrowser().page_source
+        if parserfunc:
+            return parserfunc(self.__crawl)
+        else:
+            return self.__crawl.getBrowser().page_source
 
     def getUigsByKey(self, keyword = None):
         '''
