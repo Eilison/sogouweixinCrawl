@@ -7,6 +7,7 @@ import re
 import json
 from SogouWeixinAccountListParser import SogouWeixinAccountParser
 from SogouWeixinVerify import SogouWeixinVerify
+import time
 
 class SogouWeixinCrawl(object):
     __crawl = None
@@ -83,6 +84,7 @@ class SogouWeixinCrawl(object):
 
     def getArticleContent(self, url):
         self.__crawl.getContent(url)
+        time.sleep(2)
 
         if not self.__verifyHandler.checkWeixinVerify():
                 return
@@ -103,6 +105,7 @@ class SogouWeixinCrawl(object):
         if articleUigs:
             self.__crawl.clickElement(self.__crawl.findElement(By.XPATH, '//a[@uigs="%s"]'%(articleUigs['recentArticleUigs'])), 
                 1, 30)
+            time.sleep(2)
 
             if not self.__verifyHandler.checkWeixinVerify():
                 return
