@@ -127,3 +127,6 @@ class SogouWeixinCrawl(object):
                 return self.__accountList[account]
         
         return None
+
+    def reset(self):
+        self.__accountList = dict()
