@@ -30,7 +30,7 @@ class SogouWeixinAccountParser(object):
                 companyElement = element.find(".//dl[2]/dd")
                 if companyElement is not None:
                     accountInfo['company'] = companyElement.text
-                recentArticleTitle = element.find(".//dl[3]/dd/a")
+                recentArticleTitle = element.find(".//dl/dd/a[@uigs]")
                 if recentArticleTitle is not None:
                     accountInfo['recentArticleTitle'] = recentArticleTitle.text
                     accountInfo['recentArticleLink'] = recentArticleTitle.attrib['href']

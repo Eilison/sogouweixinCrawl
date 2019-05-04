@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='sogouweixincrawl',
-    version='v1.0.3.dev4',
+    version='v1.0.3.dev5',
     author='eilison',
     author_email='1277886419@qq.com',
     url='https://github.com/Eilison/sogouweixinCrawl.git',
