@@ -20,8 +20,13 @@ class SogouWeixinCrawl(object):
 
     __verifyHandler = None
 
-    def __init__(self, sogouVerifyFunc=None, weixinVerifyFunc=None, screenSavePath="verifyscreenimg.png", verifyCodeSavePath="verifyimg.png"):
-        self.__crawl = getBaseCrawler()
+    def __init__(self, sogouVerifyFunc=None, 
+        weixinVerifyFunc=None, 
+        screenSavePath="verifyscreenimg.png", 
+        verifyCodeSavePath="verifyimg.png",
+        netAddress="127.0.0.1:4444"):
+        
+        self.__crawl = getBaseCrawler(netAddress)
 
         self.__verifyHandler = SogouWeixinVerify(self.__crawl,sogouVerifyFunc, weixinVerifyFunc, screenSavePath, verifyCodeSavePath)
 

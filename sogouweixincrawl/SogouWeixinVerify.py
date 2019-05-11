@@ -2,6 +2,7 @@
 from lxml import etree
 from PIL import Image
 from selenium.webdriver.common.by import By
+import time
 
 class SogouWeixinVerify(object):
 
@@ -9,7 +10,6 @@ class SogouWeixinVerify(object):
 
     __screenSavePath = ""
     __verifyCodeSavePath = ""
-    __keepVerify = True
 
     __sogouVerifyFunc = None
     __weixinVerifyFunc = None
@@ -18,15 +18,13 @@ class SogouWeixinVerify(object):
         sogouVerifyFunc=None, 
         weixinVerifyFunc=None, 
         screenSavePath=None, 
-        verifyCodeSavePath=None, 
-        keepVerify=True):
+        verifyCodeSavePath=None):
 
         self.__crawl = crawl
         self.__sogouVerifyFunc = sogouVerifyFunc
         self.__weixinVerifyFunc = weixinVerifyFunc
         self.__screenSavePath = screenSavePath
         self.__verifyCodeSavePath = verifyCodeSavePath
-        self.__keepVerify = keepVerify
 
     def checkSogouVerify(self):
         if self.__crawl is None:
@@ -93,16 +91,9 @@ class SogouWeixinVerify(object):
         verifyInput = self.__crawl.findElement(By.ID, "seccodeInput")
         verifyInput.send_keys(code)
         self.__crawl.findElement(By.ID, "submit").click()
-        sogouVerifyElement = self.__crawl.findElement(By.XPATH, '//*[@id="seccodeImage"]')
         self.__crawl.waitLast(30)
 
-        if sogouVerifyElement:
-            if not self.__keepVerify:
-                return False
-            else:
-                self.checkSogouVerify()
-        else:
-            return True
+        return self.checkSogouVerify()
 
     def inputWeixinVerifyCode(self, code):
         pass
