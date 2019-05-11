@@ -30,6 +30,7 @@ class SogouWeixinVerify(object):
         if self.__crawl is None:
             assert self.__crawl is not None
         
+        time.sleep(3)
         # pageHtml = etree.HTML(crawl.getBrowser().page_source, etree.HTMLParser())
         sogouVerifyElement = self.__crawl.findElement(By.XPATH, '//*[@id="seccodeImage"]')
         
