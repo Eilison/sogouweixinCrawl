@@ -1,5 +1,6 @@
 
 from lxml import etree
+import re
 
 class SogouWeixinAccountParser(object):
 
@@ -35,6 +36,11 @@ class SogouWeixinAccountParser(object):
                     accountInfo['recentArticleTitle'] = recentArticleTitle.text
                     accountInfo['recentArticleLink'] = recentArticleTitle.attrib['href']
                     accountInfo['recentArticleUigs'] = recentArticleTitle.attrib['uigs']
+                recentArticleTime = element.find(".//dl/dd/span/script")
+                if recentArticleTime is not None:
+                    matchObj = re.match( r'[^\d]*\'(\d{10})\'.*', recentArticleTime.text)
+                    if matchObj:
+                        accountInfo['recentArticleTime'] = int(matchObj.group(1))
                 accountList[accountInfo['appid']] = accountInfo
 
         return accountList
