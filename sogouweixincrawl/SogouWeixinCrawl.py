@@ -5,8 +5,8 @@ from lxml import etree
 from selenium.webdriver.support import expected_conditions as EC
 import re
 import json
-from SogouWeixinAccountListParser import SogouWeixinAccountParser
-from SogouWeixinVerify import SogouWeixinVerify
+from sogouweixincrawl.SogouWeixinVerify import SogouWeixinVerify
+from sogouweixincrawl.SogouWeixinAccountListParser import SogouWeixinAccountParser
 import time
 
 class SogouWeixinCrawl(object):
@@ -57,9 +57,10 @@ class SogouWeixinCrawl(object):
                     return
                 accountListElement = self.__crawl.findElement(By.CLASS_NAME, 'news-list2')
 
-            listHtml = accountListElement.get_attribute("innerHTML")
+            if accountListElement is not None:
+                listHtml = accountListElement.get_attribute("innerHTML")
             
-            self.__accountList = SogouWeixinAccountParser(listHtml).parser()
+                self.__accountList = SogouWeixinAccountParser(listHtml).parser()
 
         return self.__accountList
     
@@ -135,6 +136,9 @@ class SogouWeixinCrawl(object):
                 return self.__accountList[account]
         
         return None
+
+    def saveScreen(self, path):
+        self.__crawl.getBrowser().save_screenshot(path)
 
     def reset(self):
         self.__accountList = dict()
